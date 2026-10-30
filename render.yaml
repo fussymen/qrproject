@@ -1,0 +1,17 @@
+# Render 部署描述文件（Infra as Code）
+# 用法：删除旧的（原生 Node）服务，在 render.com 的 "Blueprints" 里连本仓库，
+# Render 会自动按此配置用 Docker 构建部署（不走原生 Node 的 src 目录坑）。
+services:
+  - type: web
+    name: card-qrcode
+    runtime: docker
+    plan: free
+    region: oregon          # 免费套餐默认区域；国内访问略慢但可用
+    branch: main
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/status
+    envVars:
+      - key: PORT
+        value: "3000"
+      - key: NODE_ENV
+        value: production
